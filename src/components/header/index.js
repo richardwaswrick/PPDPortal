@@ -1,7 +1,7 @@
 import React from 'react';
 import { Nav, Navbar, NavbarBrand, NavbarToggler, Collapse, Dropdown, DropdownItem, DropdownToggle, DropdownMenu } from 'reactstrap';
 
-export default class Example extends React.Component {
+export default class Header extends React.Component {
   constructor(props) {
     super(props);
 
