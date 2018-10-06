@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from './header/index';
-import Footer from './footer/index';
-import Login from './login/index';
+import Header from './header';
+import Footer from './footer';
+import Login from './login';
 
 export default class App extends React.Component {
   render() {
