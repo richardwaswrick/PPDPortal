@@ -1,20 +1,20 @@
-import React, { Component } from "react";
+import React from 'react'
+import  { Component } from "react";
 
 export default class Footer extends Component {
     render() {
         return (
             <div>
-                <div class="row">
-                    <div Class="col-md-12">&nbsp;</div>
+                <div className="row">
+                    <div className="col-md-12">&nbsp;</div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-12">
+                <div className="row">
+                    <div className="col-md-12">
                         <hr />
                         <div><p>&copy; {new Date().getFullYear()} - Perpetual Delivery LLC</p></div>
                     </div>
                 </div>
             </div>            
-        )
+        );
     }
 }
