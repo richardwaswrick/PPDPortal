@@ -21,17 +21,18 @@ export default class Header extends React.Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">PPD Portal</NavbarBrand>
+          <NavbarBrand href="/home">PPD Portal</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>        
             <Nav className="navbar navbar-expand-lg navbar-light bg-light" navbar>
               <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle nav caret>
+                <DropdownToggle tag="a" className="nav-link" caret>
                   Administration
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem header>Entities</DropdownItem>
-                  <DropdownItem header>Tasks</DropdownItem>
+                  <DropdownItem tag="a" href="/admin/Entities">Entities</DropdownItem>
+                  <DropdownItem tag="a" href="/admin/Tasks">Tasks</DropdownItem>
+                  <DropdownItem tag="a" href="/login">Login</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </Nav>
