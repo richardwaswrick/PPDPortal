@@ -5,11 +5,18 @@ import Login from './login';
 
 export default class App extends React.Component {
   render() {
+
+    const contentStyle = {
+      paddingleft: 30,
+      paddingright: 30,
+      paddingtop: 20
+    };
+
     return (
       <div>
         <Header/>
         <div className="row">
-            <div Id="content" className="col-md-12" Style="padding-left:30px;padding-right:30px;padding-top:20px">
+            <div id="content" className="col-md-12" style={{contentStyle}}>
               <Login/>
             </div>
         </div>
