@@ -1,18 +1,17 @@
-import React from 'react';
-import { Formik } from 'formik';
-import { Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import * as Yup from 'yup';
+import React from "react";
+import { Formik } from "formik";
+import { Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
+import * as Yup from "yup";
 
 export default class Login extends React.Component {
   render() {
-    
     const validationSchema = Yup.object().shape({
       email: Yup.string()
-        .email('E-mail is not valid!')
-        .required('E-mail is required!'),
+        .email("E-mail is not valid!")
+        .required("E-mail is required!"),
       password: Yup.string()
-        .min(6, 'Password has to be longer than 6 characters!')  
-        .required('Password is required!')
+        .min(6, "Password has to be longer than 6 characters!")
+        .required("Password is required!")
     });
 
     function onSubmit(values, { setSubmitting }) {
@@ -22,12 +21,12 @@ export default class Login extends React.Component {
       }, 400);
     }
 
-    return (  
+    return (
       <div>
         <h3>Login</h3>
         <Formik
-          initialValues={{ email: '', password: '' }}
-          validationSchema = {validationSchema}
+          initialValues={{ email: "", password: "" }}
+          validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
           {({
@@ -38,14 +37,14 @@ export default class Login extends React.Component {
             handleBlur,
             handleSubmit,
             isSubmitting,
-            dirty,
+            dirty
             /* and other goodies */
           }) => (
             <Form onSubmit={handleSubmit}>
               <Row form>
                 <Col md={4}>
                   <FormGroup>
-                  <Label id="lblEmail">Email:</Label>
+                    <Label id="lblEmail">Email:</Label>
                     <Input
                       type="email"
                       name="email"
@@ -54,12 +53,12 @@ export default class Login extends React.Component {
                       value={values.email}
                     />
                     {errors.email && touched.email && errors.email}
-                    </FormGroup>
-                </Col>              
+                  </FormGroup>
+                </Col>
                 <Col md={4}>
                   <FormGroup>
                     <Label id="lblPassword">Password:</Label>
-                  
+
                     <Input
                       type="password"
                       name="password"
@@ -71,12 +70,12 @@ export default class Login extends React.Component {
                   </FormGroup>
                 </Col>
               </Row>
-              <Button 
-                  type="submit" 
-                  disabled={isSubmitting || !dirty}
-                  className="btn btn-default"
-                >
-                  Submit
+              <Button
+                type="submit"
+                disabled={isSubmitting || !dirty}
+                className="btn btn-default"
+              >
+                Submit
               </Button>
             </Form>
           )}

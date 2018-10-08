@@ -1,11 +1,7 @@
-import React from 'react';
+import React from "react";
 
 export default class Entities extends React.Component {
   render() {
-    return (
-      <div>
-        Entities Content
-      </div>
-    );
+    return <div>Entities Content</div>;
   }
 }

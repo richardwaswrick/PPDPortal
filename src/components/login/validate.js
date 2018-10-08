@@ -1,5 +1,5 @@
 export default function validate(getValidationSchema) {
-  return (values) => {
+  return values => {
     const validationSchema = getValidationSchema(values);
     try {
       validationSchema.validateSync(values, {
@@ -17,7 +17,7 @@ function getErrorsFromValidationError(validationError) {
   return validationError.inner.reduce((errors, error) => {
     return {
       errors,
-      [error.path]: error.errors[FIRST_ERROR],
+      [error.path]: error.errors[FIRST_ERROR]
     };
   }, {});
 }

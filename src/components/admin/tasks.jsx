@@ -1,11 +1,7 @@
-import React from 'react';
+import React from "react";
 
 export default class Tasks extends React.Component {
   render() {
-    return (
-      <div>
-        Tasks Content
-      </div>
-    );
+    return <div>Tasks Content</div>;
   }
 }
