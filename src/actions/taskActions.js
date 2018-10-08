@@ -2,16 +2,17 @@ import TaskApi from "../api/mockTasksApi";
 import * as types from "./actionTypes";
 import { beginAjaxCall, ajaxCallError } from "./ajaxStatusActions";
 
-export function loadTasksSuccess(TASKS) {
-  return { type: types.LOAD_TASKS_SUCCESS, TASKS };
+export function loadTasksSuccess(tasks) {
+  //console.log(Tasks);
+  return { type: types.LOAD_TASKS_SUCCESS, tasks };
 }
 
-export function createTaskSuccess(Task) {
-  return { type: types.CREATE_TASK_SUCCESS, Task };
+export function createTaskSuccess(task) {
+  return { type: types.CREATE_TASK_SUCCESS, task };
 }
 
-export function updateTaskSuccess(Task) {
-  return { type: types.UPDATE_TASK_SUCCESS, Task };
+export function updateTaskSuccess(task) {
+  return { type: types.UPDATE_TASK_SUCCESS, task };
 }
 
 // Functions below handle asynchronous calls.
@@ -21,8 +22,8 @@ export function loadTasks() {
   return function(dispatch) {
     dispatch(beginAjaxCall());
     return TaskApi.getAllTasks()
-      .then(Tasks => {
-        dispatch(loadTasksSuccess(Tasks));
+      .then(tasks => {
+        dispatch(loadTasksSuccess(tasks));
       })
       .catch(error => {
         throw error;
@@ -30,14 +31,14 @@ export function loadTasks() {
   };
 }
 
-export function saveTask(Task) {
+export function saveTask(task) {
   return function(dispatch, getState) {
     dispatch(beginAjaxCall());
-    return TaskApi.saveTask(Task)
-      .then(Task => {
-        Task.id
-          ? dispatch(updateTaskSuccess(Task))
-          : dispatch(createTaskSuccess(Task));
+    return TaskApi.saveTask(task)
+      .then(task => {
+        task.id
+          ? dispatch(updateTaskSuccess(task))
+          : dispatch(createTaskSuccess(task));
       })
       .catch(error => {
         dispatch(ajaxCallError(error));

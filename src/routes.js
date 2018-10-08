@@ -1,12 +1,12 @@
-import Tasks from "./components/admin/tasks";
-import Entities from "./components/admin/entities";
+import TasksPage from "./components/admin/tasks/tasksPage";
+import Entities from "./components/admin/entities/entities";
 import HomePage from "./components/home/index";
 import Login from "./components/login/index";
 
 export const routes = [
   {
     key: "taskRoute",
-    component: Tasks,
+    component: TasksPage,
     path: "/admin/tasks"
   },
   {

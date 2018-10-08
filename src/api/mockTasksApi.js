@@ -1,4 +1,4 @@
-const Tasks = [
+const tasks = [
   {
     id: 1,
     taskName: "Load GlobalCracts Inventory",
@@ -24,32 +24,32 @@ class TaskApi {
   static getAllTasks() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(Object.assign([], Tasks));
+        resolve(Object.assign([], tasks));
       }, 1000);
     });
   }
 
-  static saveTask(Task) {
+  static saveTask(task) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         // Simulate server-side validation
         const minTaskNameLength = 3;
-        if (Task.taskName.length < minTaskNameLength) {
+        if (task.taskName.length < minTaskNameLength) {
           reject(`Task Name must be at least ${minTaskNameLength} characters.`);
         }
 
-        if (Task.id) {
-          const existingTaskIndex = Tasks.findIndex(a => a.id === Task.id);
-          Tasks.splice(existingTaskIndex, 1, Task);
+        if (task.id) {
+          const existingTaskIndex = tasks.findIndex(a => a.id === task.id);
+          tasks.splice(existingTaskIndex, 1, task);
         } else {
           //Just simulating creation here.
           //The server would generate ids for new Tasks in a real app.
           //Cloning so copy returned is passed by value rather than by reference.
-          Task.id = generateId(Task);
-          Tasks.push(Task);
+          task.id = generateId(task);
+          tasks.push(task);
         }
 
-        resolve(Object.assign({}, Task));
+        resolve(Object.assign({}, task));
       }, 1000);
     });
   }
@@ -57,8 +57,8 @@ class TaskApi {
   static deleteTask(TaskId) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const indexOfTaskToDelete = Tasks.findIndex(a => a.id === TaskId);
-        Tasks.splice(indexOfTaskToDelete, 1);
+        const indexOfTaskToDelete = tasks.findIndex(a => a.id === TaskId);
+        tasks.splice(indexOfTaskToDelete, 1);
         resolve();
       }, 1000);
     });
