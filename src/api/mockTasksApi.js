@@ -25,7 +25,7 @@ class TaskApi {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(Object.assign([], tasks));
-      }, 1000);
+      }, 150);
     });
   }
 
@@ -50,7 +50,7 @@ class TaskApi {
         }
 
         resolve(Object.assign({}, task));
-      }, 1000);
+      }, 150);
     });
   }
 
@@ -60,7 +60,7 @@ class TaskApi {
         const indexOfTaskToDelete = tasks.findIndex(a => a.id === TaskId);
         tasks.splice(indexOfTaskToDelete, 1);
         resolve();
-      }, 1000);
+      }, 150);
     });
   }
 }

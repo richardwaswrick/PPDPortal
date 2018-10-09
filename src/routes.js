@@ -2,8 +2,14 @@ import TasksPage from "./components/admin/tasks/tasksPage";
 import Entities from "./components/admin/entities/entities";
 import HomePage from "./components/home/index";
 import Login from "./components/login/index";
+import App from "./components/app";
 
 export const routes = [
+  {
+    key: "appRoute",
+    component: App,
+    path: "/"
+  },
   {
     key: "taskRoute",
     component: TasksPage,

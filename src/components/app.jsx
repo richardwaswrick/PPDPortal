@@ -1,19 +1,13 @@
 import React from "react";
 import Header from "./common/header";
 import Footer from "./common/footer";
-import { Route, Switch, Router } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Route } from "react-router-dom";
 import routes from "../routes";
-import history from "../history";
-import { Provider } from "react-redux";
-import configureStore from "../store/configureStore";
-import { loadTasks } from "../actions/taskActions";
 
-const store = configureStore();
-
-export default class App extends React.Component {
+class App extends React.Component {
   render() {
-    store.dispatch(loadTasks());
-
     const contentStyle = {
       paddingleft: 30,
       paddingright: 30,
@@ -21,25 +15,17 @@ export default class App extends React.Component {
     };
 
     return (
-      <div>
-        <Header />
+      <div className="container">
+        <Header loading={this.props.loading} />
         <div className="row">
           <div id="content" className="col-md-12" style={{ contentStyle }}>
-            <div className="container">
-              <Provider store={store}>
-                <Router history={history}>
-                  <Switch>
-                    {routes.map(props => (
-                      <Route
-                        key={props.key}
-                        path={props.path}
-                        component={props.component}
-                      />
-                    ))}
-                  </Switch>
-                </Router>
-              </Provider>
-            </div>
+            {routes.map(props => (
+              <Route
+                key={props.key}
+                path={props.path}
+                component={props.component}
+              />
+            ))}
           </div>
         </div>
         <Footer />
@@ -47,3 +33,16 @@ export default class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  match: PropTypes.object.isRequired
+};
+
+function mapStateToProps(state, ownProps) {
+  return {
+    loading: state.ajaxCallsInProgress > 0
+  };
+}
+
+export default connect(mapStateToProps)(App);
