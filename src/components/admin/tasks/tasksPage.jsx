@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -10,6 +10,10 @@ class TasksPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.redirectToAddTaskPage = this.redirectToAddTaskPage.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.actions.loadTasks();
   }
 
   redirectToAddTaskPage() {
@@ -46,7 +50,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(TaskActions, dispatch)
+    actions: bindActionCreators(TaskActions, dispatch),
   };
 }
 
