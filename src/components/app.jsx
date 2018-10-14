@@ -24,6 +24,7 @@ class App extends React.Component {
                 key={props.key}
                 path={props.path}
                 component={props.component}
+                exact={props.exact}
               />
             ))}
           </div>

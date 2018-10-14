@@ -1,23 +1,28 @@
 import React from "react";
-import TextInput from "../common/TextInput";
+import TextInput from "../../common/textInput";
 import PropTypes from "prop-types";
 
-const TaskForm = ({ Task, onSave, onChange, saving, errors }) => {
+const TaskForm = ({ task, onSave, onChange, saving, errors }) => {
   return (
     <form>
-      <h1>Manage Task</h1>
+      <h2>Manage Task</h2>
+      {errors.onSave && (
+        <div className="alert alert-danger" role="alert">
+          {errors.onSave}
+        </div>
+      )}
       <TextInput
-        name="title"
-        label="Title"
-        value={Task.taskName}
+        name="taskName"
+        label="Task Name"
+        value={task.taskName}
         onChange={onChange}
         error={errors.taskName}
       />
 
       <TextInput
-        name="category"
-        label="Category"
-        value={Task.taskType}
+        name="taskType"
+        label="Task Type"
+        value={task.taskType}
         onChange={onChange}
         error={errors.taskType}
       />
@@ -34,8 +39,7 @@ const TaskForm = ({ Task, onSave, onChange, saving, errors }) => {
 };
 
 TaskForm.propTypes = {
-  Task: PropTypes.object.isRequired,
-  allAuthors: PropTypes.array.isRequired,
+  task: PropTypes.object.isRequired,
   onSave: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   saving: PropTypes.bool,

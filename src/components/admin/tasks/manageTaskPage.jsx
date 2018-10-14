@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import TaskForm from "./TaskForm";
-import * as TaskActions from "../../actions/TaskActions";
+import * as TaskActions from "../../../actions/taskActions";
+import TaskForm from "./taskForm";
 import toastr from "toastr";
 
 export class ManageTaskPage extends React.Component {
@@ -11,7 +11,7 @@ export class ManageTaskPage extends React.Component {
     super(props, context);
 
     this.state = {
-      Task: Object.assign({}, this.props.Task),
+      task: Object.assign({}, this.props.task),
       errors: {},
       saving: false
     };
@@ -21,25 +21,29 @@ export class ManageTaskPage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.Task.id != nextProps.Task.id) {
-      // Necessary to populate form when existing Task is loaded directly.
-      this.setState({ Task: Object.assign({}, nextProps.Task) });
+    if (this.props.task.id != nextProps.task.id) {
+      this.setState({ task: Object.assign({}, nextProps.task) });
     }
   }
 
   updateTaskState(event) {
     const field = event.target.name;
-    let Task = Object.assign({}, this.state.Task);
-    Task[field] = event.target.value;
-    return this.setState({ Task: Task });
+    let task = Object.assign({}, this.state.task);
+    task[field] = event.target.value;
+    return this.setState({ task: task });
   }
 
   TaskFormIsValid() {
     let formIsValid = true;
     let errors = {};
 
-    if (this.state.Task.title.length < 5) {
-      errors.title = "Title must be at least 5 characters.";
+    if (this.state.task.taskName.length < 5) {
+      errors.taskName = "Task name must be at least 5 characters.";
+      formIsValid = false;
+    }
+
+    if (this.state.task.taskType.length < 5) {
+      errors.taskType = "Task type name must be at least 5 characters.";
       formIsValid = false;
     }
 
@@ -56,7 +60,7 @@ export class ManageTaskPage extends React.Component {
 
     this.setState({ saving: true });
     this.props.actions
-      .saveTask(this.state.Task)
+      .saveTask(this.state.task)
       .then(() => this.redirect())
       .catch(error => {
         toastr.error(error);
@@ -67,13 +71,14 @@ export class ManageTaskPage extends React.Component {
   redirect() {
     this.setState({ saving: false });
     toastr.success("Task saved.");
-    this.context.router.push("/Tasks");
+    this.context.router.history.push("/admin/tasks");
   }
 
   render() {
+    // console.log(this.state.task);
     return (
       <TaskForm
-        Task={this.state.task}
+        task={this.state.task}
         onChange={this.updateTaskState}
         onSave={this.saveTask}
         errors={this.state.errors}
@@ -84,40 +89,35 @@ export class ManageTaskPage extends React.Component {
 }
 
 ManageTaskPage.propTypes = {
-  Task: PropTypes.object.isRequired,
-  authors: PropTypes.array.isRequired,
+  task: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
 
-//Pull in the React Router context so router is available on this.context.router.
 ManageTaskPage.contextTypes = {
   router: PropTypes.object
 };
 
-function getTaskById(Tasks, id) {
-  const Task = Tasks.filter(Task => Task.id == id);
-  if (Task) return Task[0]; //since filter returns an array, have to grab the first.
+function getTaskById(tasks, id) {
+  const vtask = tasks.filter(w => w.id == id);
+  if (vtask) return vtask[0];
   return null;
 }
 
 function mapStateToProps(state, ownProps) {
-  const TaskId = ownProps.params.id; // from the path `/Task/:id`
+  const taskId = ownProps.match.params.id; // from the path `/Task/:id`
 
-  let Task = {
+  let vTask = {
     id: "",
-    watchHref: "",
-    title: "",
-    authorId: "",
-    length: "",
-    category: ""
+    taskName: "",
+    taskType: ""
   };
 
-  if (TaskId && state.Tasks.length > 0) {
-    Task = getTaskById(state.Tasks, TaskId);
+  if (taskId && state.tasks.length > 0) {
+    vTask = getTaskById(state.tasks, taskId);
   }
 
   return {
-    Task: Task
+    task: vTask
   };
 }
 

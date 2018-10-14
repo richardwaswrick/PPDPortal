@@ -11,7 +11,7 @@ const TaskListRow = ({ task }) => {
         </a>
       </td>
       <td>
-        <Link to={"admin/Task/" + task.id}>{task.taskName}</Link>
+        <Link to={"/admin/task/" + task.id}>{task.taskName}</Link>
       </td>
       <td>{task.taskType}</td>
     </tr>

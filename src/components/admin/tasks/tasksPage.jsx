@@ -17,7 +17,7 @@ class TasksPage extends React.Component {
   }
 
   redirectToAddTaskPage() {
-    history.push("/Task");
+    history.push("/admin/task");
   }
 
   render() {

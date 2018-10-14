@@ -1,8 +1,9 @@
-import TasksPage from "./components/admin/tasks/tasksPage";
+import App from "./components/app";
 import Entities from "./components/admin/entities/entities";
 import HomePage from "./components/home/index";
 import Login from "./components/login/index";
-import App from "./components/app";
+import TasksPage from "./components/admin/tasks/tasksPage";
+import ManageTaskPage from "./components/admin/tasks/manageTaskPage";
 
 export const routes = [
   {
@@ -11,9 +12,20 @@ export const routes = [
     path: "/"
   },
   {
-    key: "taskRoute",
+    key: "taskListPageRoute",
     component: TasksPage,
     path: "/admin/tasks"
+  },
+  {
+    key: "manageTasksPageRoute",
+    component: ManageTaskPage,
+    path: "/admin/task",
+    exact: true
+  },
+  {
+    key: "manageTaskPageRoute",
+    component: ManageTaskPage,
+    path: "/admin/task/:id",
   },
   {
     key: "homeRoute",

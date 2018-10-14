@@ -51,6 +51,7 @@ export default class Login extends React.Component {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.email}
+                      autoComplete="userName"
                     />
                     {errors.email && touched.email && errors.email}
                   </FormGroup>
@@ -65,6 +66,7 @@ export default class Login extends React.Component {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.password}
+                      autoComplete="current-password"
                     />
                     {errors.password && touched.password && errors.password}
                   </FormGroup>

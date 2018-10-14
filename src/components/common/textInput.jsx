@@ -4,8 +4,10 @@ import PropTypes from "prop-types";
 const TextInput = ({ name, label, onChange, placeholder, value, error }) => {
   let wrapperClass = "form-group";
   if (error && error.length > 0) {
-    wrapperClass += " " + "has-error";
+    wrapperClass += " has-error";
   }
+
+// console.log(value);
 
   return (
     <div className={wrapperClass}>
