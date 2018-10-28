@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
 import "../node_modules/toastr/build/toastr.min.css";
 import "./index.css";
-import App from './components/app';
+import App from "./components/app";
 import history from "./history";
 
 const store = configureStore();

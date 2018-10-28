@@ -1,7 +1,8 @@
 export default {
   ajaxCallsInProgress: 0,
-  authenticated: false,
+  isAuthenticated: false,
   loginAttempts: 0,
   tasks: [],
-  entities: []
+  entities: [],
+  errorMessage: ""
 };

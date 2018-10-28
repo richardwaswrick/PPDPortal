@@ -10,6 +10,7 @@ const composeEnhancers = composeWithDevTools({
 });
 
 export default function configureStore(initialState) {
+  // console.log(initialState);
   return createStore(
     rootReducer,
     initialState,
