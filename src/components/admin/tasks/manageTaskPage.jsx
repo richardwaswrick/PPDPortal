@@ -21,6 +21,7 @@ export class ManageTaskPage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // eslint-disable-next-line
     if (this.props.task.id != nextProps.task.id) {
       this.setState({ task: Object.assign({}, nextProps.task) });
     }
@@ -98,6 +99,7 @@ ManageTaskPage.contextTypes = {
 };
 
 function getTaskById(tasks, id) {
+  // eslint-disable-next-line
   const vtask = tasks.filter(w => w.id == id);
   if (vtask) return vtask[0];
   return null;

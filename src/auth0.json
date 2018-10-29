@@ -1,0 +1,9 @@
+{
+  "domain": "ppdportal.auth0.com",
+  "clientId": "",
+  "callbackUrl": "http://localhost:3000/callback",
+  "realm": "Username-Password-Authentication",
+  "apiUrl": "http://localhost:3000",
+  "apiAudience": "https://ppdportalweb2.azurewebsites.net",
+  "scope": "openid email update:password"
+}

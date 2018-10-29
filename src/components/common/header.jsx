@@ -1,17 +1,21 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   Nav,
   Navbar,
   NavbarBrand,
   NavbarToggler,
+  NavItem,
+  NavLink,
   Collapse,
   Dropdown,
   DropdownItem,
   DropdownToggle,
   DropdownMenu
 } from "reactstrap";
+import * as actions from "../../actions/auth";
+import { connect } from "react-redux";
 
-export default class Header extends React.Component {
+class Header extends Component {
   constructor(props) {
     super(props);
 
@@ -19,6 +23,41 @@ export default class Header extends React.Component {
     this.state = {
       dropdownOpen: false
     };
+  }
+
+  renderSignOut() {
+    if (this.props.authenticated) {
+      return (
+        <NavItem>
+          <NavLink href="/">Sign Out</NavLink>
+        </NavItem>
+      );
+    }
+  }
+
+  renderNav() {
+    if (this.props.authenticated) {
+      return (
+        <Collapse isOpen={this.state.isOpen} navbar>
+          <Nav className="navbar navbar-expand-lg navbar-light bg-light" navbar>
+            <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+              <DropdownToggle tag="a" className="nav-link" caret>
+                Administration
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem tag="a" href="/admin/Entities">
+                  Entities
+                </DropdownItem>
+                <DropdownItem tag="a" href="/admin/Tasks">
+                  Tasks
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+            {this.renderSignOut()}
+          </Nav>
+        </Collapse>
+      );
+    }
   }
 
   toggle() {
@@ -33,33 +72,7 @@ export default class Header extends React.Component {
         <Navbar color="light" light expand="md">
           <NavbarBrand href="/home">PPD Portal</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav
-              className="navbar navbar-expand-lg navbar-light bg-light"
-              navbar
-            >
-              <Dropdown
-                nav
-                isOpen={this.state.dropdownOpen}
-                toggle={this.toggle}
-              >
-                <DropdownToggle tag="a" className="nav-link" caret>
-                  Administration
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem tag="a" href="/admin/Entities">
-                    Entities
-                  </DropdownItem>
-                  <DropdownItem tag="a" href="/admin/Tasks">
-                    Tasks
-                  </DropdownItem>
-                  <DropdownItem tag="a" href="/login">
-                    Login
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </Nav>
-          </Collapse>
+          {this.renderNav()}
         </Navbar>
         <div className="row">
           <div className="col-md-12">&nbsp;</div>
@@ -68,3 +81,14 @@ export default class Header extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    authenticated: state.auth.authenticated
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  actions
+)(Header);
