@@ -4,15 +4,14 @@ import {
   Navbar,
   NavbarBrand,
   NavbarToggler,
-  NavItem,
-  NavLink,
+  // NavItem,
+  // NavLink,
   Collapse,
   Dropdown,
   DropdownItem,
   DropdownToggle,
   DropdownMenu
 } from "reactstrap";
-import * as actions from "../../actions/auth";
 import { connect } from "react-redux";
 
 class Header extends Component {
@@ -25,15 +24,15 @@ class Header extends Component {
     };
   }
 
-  renderSignOut() {
-    if (this.props.authenticated) {
-      return (
-        <NavItem>
-          <NavLink href="/">Sign Out</NavLink>
-        </NavItem>
-      );
-    }
-  }
+  // renderSignOut() {
+  //   if (this.props.authenticated) {
+  //     return (
+  //       <NavItem>
+  //         <NavLink href="/">Sign Out</NavLink>
+  //       </NavItem>
+  //     );
+  //   }
+  // }
 
   renderNav() {
     if (this.props.authenticated) {
@@ -53,7 +52,7 @@ class Header extends Component {
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
-            {this.renderSignOut()}
+            {/* {this.renderSignOut()} */}
           </Nav>
         </Collapse>
       );
@@ -89,6 +88,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(
-  mapStateToProps,
-  actions
+  mapStateToProps
+  // actions
 )(Header);

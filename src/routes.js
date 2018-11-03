@@ -2,37 +2,19 @@ import Entities from "./components/admin/entities/entities";
 import TasksPage from "./components/admin/tasks/tasksPage";
 import ManageTaskPage from "./components/admin/tasks/manageTaskPage";
 import RequireAuth from './components/auth/requireAuth';
-import Signin from './components/auth/signin';
 import Home from './components/home/index';
-import ForgotPassword from './components/forgot/forgotPassword';
-import Callback from './components/callback/callback';
-import ChangePassword from './components/password/changePassword';
+import login from './features/login/loginContainer'
 
 export const routes = [
   {
     key: "appRoute",
-    component: Signin,
+    component: login,
     path: "/"
-  },
-  {
-    key: "callbackRoute",
-    component: Callback,
-    path: "/callback"
   },
   {
     key: "homeRoute",
     component: RequireAuth(Home),
     path: "/home"
-  },
-  {
-    key: "changePasswordRoute",
-    component: RequireAuth(ChangePassword),
-    path: "/password"
-  },
-  {
-    key: "forgotRoute",
-    component: ForgotPassword,
-    path: "/forgot"
   },
   {
     key: "taskListPageRoute",
