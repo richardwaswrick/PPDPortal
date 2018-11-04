@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 class LoginMessage extends Component {
-
   componentWillUpdate(nextProps) {
     if (nextProps.isAuthenticated) {
       this.props.history.push("/home");
@@ -11,11 +10,7 @@ class LoginMessage extends Component {
   }
 
   render() {
-    return (
-      <div className="container">
-        <p>Please click the login link above to sign in.</p>
-      </div>
-    );
+    return <p>Please click the login link above to sign in.</p>;
   }
 }
 

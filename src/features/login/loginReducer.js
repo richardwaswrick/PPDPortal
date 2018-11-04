@@ -1,26 +1,21 @@
 import * as ActionTypes from "./loginActionTypes";
-// const jwtDecode = require("jwt-decode");
+const jwtDecode = require("jwt-decode");
+
+var expDate;
 
 function checkTokenExpiry() {
   let jwt = localStorage.getItem("id_token");
+
   if (jwt) {
-    return true;
+    let jwtExp = jwtDecode(jwt).exp;
+    let expiryDate = new Date(0);
+    expDate = expiryDate.setUTCSeconds(jwtExp);
+
+    if (new Date() < expiryDate) {
+      return true;
+    }
   }
-
   return false;
-
-  //TODO: need to update auth0 to return a JWT
-  // console.log(jwt);
-  // if (jwt) {
-  //   let jwtExp = jwtDecode(jwt).exp;
-  //   let expiryDate = new Date(0);
-  //   expiryDate.setUTCSeconds(jwtExp);
-
-  //   if (new Date() < expiryDate) {
-  //     return true;
-  //   }
-  // }
-  // return false;
 }
 
 function getProfile() {
@@ -31,7 +26,8 @@ export default function auth(
   state = {
     isAuthenticated: checkTokenExpiry(),
     profile: getProfile(),
-    error: ""
+    error: "",
+    expDate: expDate
   },
   action
 ) {

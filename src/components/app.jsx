@@ -17,6 +17,7 @@ class App extends React.Component {
         <Header loading={this.props.loading} />
         <div className="row">
           <div id="content" className="col-md-12" style={{ contentStyle }}>
+            <div className="container">
             {routes.map(props => (
               <Route
                 key={props.key}
@@ -25,6 +26,7 @@ class App extends React.Component {
                 exact={props.exact}
               />
             ))}
+            </div>
           </div>
         </div>
         <Footer />

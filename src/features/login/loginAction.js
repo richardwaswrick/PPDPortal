@@ -23,15 +23,22 @@ function logoutSuccess(profile) {
 }
 
 export function login() {
-  // var options = {
-  //   auth: {
-  //     redirectUrl: "http://localhost:3000/home/"
-  //   }
-  // };
+  var options = {
+    allowedConnections: ['Username-Password-Authentication'],
+    autoclose: true,
+    allowSignUp: false,
+    auth: {
+      params: {
+        responseType: 'id_token token',
+        audience: 'https://localhost:3000/graphql'
+      }
+    }
+  };
 
   const lock = new Auth0Lock(
     "kj4DD4hvtzdZF3Ev4koF7YDuouYvGiAS",
-    "ppdportal.auth0.com"
+    "ppdportal.auth0.com",
+    options
   );
 
   return dispatch => {
@@ -42,6 +49,7 @@ export function login() {
         if (error) {
           return dispatch(loginError(error));
         }
+
         localStorage.setItem("profile", JSON.stringify(profile));
         localStorage.setItem("id_token", authResult.accessToken);
 
