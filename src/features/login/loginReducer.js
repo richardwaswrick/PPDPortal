@@ -9,6 +9,7 @@ function checkTokenExpiry() {
 
   return false;
 
+  //TODO: need to update auth0 to return a JWT
   // console.log(jwt);
   // if (jwt) {
   //   let jwtExp = jwtDecode(jwt).exp;

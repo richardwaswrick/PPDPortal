@@ -1,5 +1,5 @@
 import React from "react";
-import TextInput from "../../common/textInput";
+import TextInput from "../../../components/common/textInput";
 import PropTypes from "prop-types";
 
 const TaskForm = ({ task, onSave, onChange, saving, errors }) => {

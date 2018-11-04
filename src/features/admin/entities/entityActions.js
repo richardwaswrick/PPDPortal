@@ -1,6 +1,6 @@
-import EntityApi from "../api/mockEntityApi";
-import * as types from "./actionTypes";
-import { beginAjaxCall, ajaxCallError } from "./ajaxStatusActions";
+import EntityApi from "../../../api/mockEntityApi";
+import * as types from "./entityActionTypes";
+import { beginAjaxCall, ajaxCallError } from "../../../actions/ajaxStatusActions";
 
 export function loadEntitiesSuccess(Entities) {
   return { type: types.LOAD_ENTITIES_SUCCESS, Entities };

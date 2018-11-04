@@ -23,6 +23,12 @@ function logoutSuccess(profile) {
 }
 
 export function login() {
+  // var options = {
+  //   auth: {
+  //     redirectUrl: "http://localhost:3000/home/"
+  //   }
+  // };
+
   const lock = new Auth0Lock(
     "kj4DD4hvtzdZF3Ev4koF7YDuouYvGiAS",
     "ppdportal.auth0.com"

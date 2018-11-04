@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as TaskActions from "../../../actions/taskActions";
+import * as TaskActions from "./taskActions";
 import TaskForm from "./taskForm";
 import toastr from "toastr";
 

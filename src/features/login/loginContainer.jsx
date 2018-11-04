@@ -44,6 +44,6 @@ export default connect(
   mapStateToProps,
   {
     login,
-    logout,
+    logout
   }
 )(Login);

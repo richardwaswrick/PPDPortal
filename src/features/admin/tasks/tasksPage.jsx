@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import history from "../../../history";
-import * as TaskActions from "../../../actions/taskActions";
+import * as TaskActions from "./taskActions";
 import TaskList from "./taskList";
 
 class TasksPage extends React.Component {
@@ -50,7 +50,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(TaskActions, dispatch),
+    actions: bindActionCreators(TaskActions, dispatch)
   };
 }
 

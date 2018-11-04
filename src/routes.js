@@ -1,15 +1,16 @@
-import Entities from "./components/admin/entities/entities";
-import TasksPage from "./components/admin/tasks/tasksPage";
-import ManageTaskPage from "./components/admin/tasks/manageTaskPage";
-import RequireAuth from './components/auth/requireAuth';
-import Home from './components/home/index';
-import login from './features/login/loginContainer'
+import Entities from "./features/admin/entities/entities";
+import Home from "./features/home/homeComponent";
+import ManageTaskPage from "./features/admin/tasks/manageTaskPage";
+import RequireAuth from "./components/auth/requireAuth";
+import TasksPage from "./features/admin/tasks/tasksPage";
+import login from "./features/login/loginMessage";
 
 export const routes = [
   {
     key: "appRoute",
     component: login,
-    path: "/"
+    path: "/",
+    exact: true
   },
   {
     key: "homeRoute",
@@ -30,7 +31,7 @@ export const routes = [
   {
     key: "manageTaskPageRoute",
     component: RequireAuth(ManageTaskPage),
-    path: "/admin/task/:id",
+    path: "/admin/task/:id"
   },
   {
     key: "entitiesRoute",

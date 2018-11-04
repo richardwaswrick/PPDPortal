@@ -4,8 +4,6 @@ import {
   Navbar,
   NavbarBrand,
   NavbarToggler,
-  // NavItem,
-  // NavLink,
   Collapse,
   Dropdown,
   DropdownItem,
@@ -13,6 +11,7 @@ import {
   DropdownMenu
 } from "reactstrap";
 import { connect } from "react-redux";
+import Login from "../../features/login/loginContainer";
 
 class Header extends Component {
   constructor(props) {
@@ -24,18 +23,8 @@ class Header extends Component {
     };
   }
 
-  // renderSignOut() {
-  //   if (this.props.authenticated) {
-  //     return (
-  //       <NavItem>
-  //         <NavLink href="/">Sign Out</NavLink>
-  //       </NavItem>
-  //     );
-  //   }
-  // }
-
   renderNav() {
-    if (this.props.authenticated) {
+    if (this.props.isAuthenticated) {
       return (
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="navbar navbar-expand-lg navbar-light bg-light" navbar>
@@ -52,11 +41,19 @@ class Header extends Component {
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
-            {/* {this.renderSignOut()} */}
+            <Login />
           </Nav>
         </Collapse>
       );
     }
+
+    return (
+      <Collapse isOpen={this.state.isOpen} navbar>
+        <Nav className="navbar navbar-expand-lg navbar-light bg-light" navbar>
+          <Login />
+        </Nav>
+      </Collapse>
+    );
   }
 
   toggle() {
@@ -82,12 +79,10 @@ class Header extends Component {
 }
 
 function mapStateToProps(state) {
+  const { isAuthenticated } = state.auth;
   return {
-    authenticated: state.auth.authenticated
+    isAuthenticated
   };
 }
 
-export default connect(
-  mapStateToProps
-  // actions
-)(Header);
+export default connect(mapStateToProps)(Header);

@@ -1,6 +1,9 @@
-import TaskApi from "../api/mockTasksApi";
-import * as types from "./actionTypes";
-import { beginAjaxCall, ajaxCallError } from "./ajaxStatusActions";
+import TaskApi from "../../../api/mockTasksApi";
+import * as types from "./taskActionTypes";
+import {
+  beginAjaxCall,
+  ajaxCallError
+} from "../../../actions/ajaxStatusActions";
 
 export function loadTasksSuccess(tasks) {
   //console.log(Tasks);

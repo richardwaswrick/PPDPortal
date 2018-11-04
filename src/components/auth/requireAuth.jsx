@@ -6,13 +6,13 @@ export default function(ComposedComponent) {
   class Authentication extends Component {
 
     componentWillMount() {
-      if (!this.props.authenticated) {
+      if (!this.props.isAuthenticated) {
         this.props.history.push("/");
       }
     }
 
     componentWillUpdate(nextProps) {
-      if (!nextProps.authenticated) {
+      if (!nextProps.isAuthenticated) {
         this.props.history.push("/");
       }
     }
@@ -23,7 +23,7 @@ export default function(ComposedComponent) {
   }
 
   function mapStateToProps(state) {
-    return { authenticated: state.auth.authenticated };
+    return { isAuthenticated: state.auth.isAuthenticated };
   }
 
   return connect(mapStateToProps)(Authentication);
