@@ -1,21 +1,28 @@
 import * as ActionTypes from "./loginActionTypes";
 const jwtDecode = require("jwt-decode");
 
-var expDate;
+const jwt = localStorage.getItem("id_token");
+const expDate = getTokenExpDate(jwt);
+const isAuthenticatedLocal = checkTokenExpiry(expDate);
 
-function checkTokenExpiry() {
-  let jwt = localStorage.getItem("id_token");
+function checkTokenExpiry(jwtExpDate) {
+  const expiryDate = new Date(0);
 
-  if (jwt) {
-    let jwtExp = jwtDecode(jwt).exp;
-    let expiryDate = new Date(0);
-    expDate = expiryDate.setUTCSeconds(jwtExp);
-
-    if (new Date() < expiryDate) {
-      return true;
-    }
+  if (new Date() < expiryDate.setUTCSeconds(jwtExpDate)) {
+    return true;
   }
+
   return false;
+}
+
+function getTokenExpDate(jwt) {
+  if (jwt) {
+    var decodedJwt = jwtDecode(jwt);
+    const jwtExp = decodedJwt.exp;
+    return jwtExp;
+  }
+
+  return 0;
 }
 
 function getProfile() {
@@ -24,7 +31,7 @@ function getProfile() {
 
 export default function auth(
   state = {
-    isAuthenticated: checkTokenExpiry(),
+    isAuthenticated: isAuthenticatedLocal,
     profile: getProfile(),
     error: "",
     expDate: expDate
@@ -36,18 +43,21 @@ export default function auth(
       return Object.assign({}, state, {
         isAuthenticated: true,
         profile: action.profile,
-        error: ""
+        error: "",
+        expDate: expDate
       });
     case ActionTypes.LOGIN_ERROR:
       return Object.assign({}, state, {
         isAuthenticated: false,
         profile: null,
-        error: action.error
+        error: action.error,
+        expDate: null
       });
     case ActionTypes.LOGOUT_SUCCESS:
       return Object.assign({}, state, {
         isAuthenticated: false,
-        profile: null
+        profile: null,
+        expDate: null
       });
     default:
       return state;
