@@ -1,4 +1,4 @@
-import Entities from "./features/admin/entities/entities";
+import ManageEntitiesPage from "./features/admin/entities/entities";
 import Home from "./features/home/homeComponent";
 import ManageTaskPage from "./features/admin/tasks/manageTaskPage";
 import RequireAuth from "./components/auth/requireAuth";
@@ -35,7 +35,7 @@ export const routes = [
   },
   {
     key: "entitiesRoute",
-    component: RequireAuth(Entities),
+    component: RequireAuth(ManageEntitiesPage),
     path: "/admin/entities"
   }
 ];

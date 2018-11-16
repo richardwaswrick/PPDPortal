@@ -9,15 +9,19 @@ import "../node_modules/toastr/build/toastr.min.css";
 import "./index.css";
 import App from "./components/app";
 import history from "./history";
+import { ApolloProvider } from "react-apollo";
+import { graphqlClient } from "./api/apolloClient";
 
 const store = configureStore();
 
 render(
-  <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={App} />
-    </Router>
-  </Provider>,
+  <ApolloProvider client={graphqlClient}>
+    <Provider store={store}>
+      <Router history={history}>
+        <Route path="/" component={App} />
+      </Router>
+    </Provider>
+  </ApolloProvider>,
   document.getElementById("app")
 );
 

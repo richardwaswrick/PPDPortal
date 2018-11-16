@@ -2,6 +2,36 @@ import Auth0Lock from "auth0-lock";
 import Cookies from "universal-cookie";
 import { LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT_SUCCESS } from "./loginActionTypes";
 
+function removeCookies() {
+  const cookies = new Cookies();
+  cookies.remove("isAuthenticated");
+  cookies.remove("profile");
+  cookies.remove("id_token");
+}
+
+function setCookies(profile, accessToken) {
+  const cookies = new Cookies();
+
+  cookies.set("isAuthenticated", true, {
+    path: "/",
+    expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24),
+    //httpOnly: true, --can't do that with REACT it's JS after all
+    //secure: true --commented out for local, will add env stuff to address this, but proably need to store this server side for highy secure apps
+  });
+  cookies.set("profile", JSON.stringify(profile), {
+    path: "/",
+    expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24),
+    //httpOnly: true,
+    //secure: true
+  });
+  cookies.set("id_token", accessToken, {
+    path: "/",
+    expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24),
+    //httpOnly: true,
+    //secure: true
+  });
+}
+
 function loginSuccess(profile) {
   return {
     type: LOGIN_SUCCESS,
@@ -51,28 +81,9 @@ export function login() {
           return dispatch(loginError(error));
         }
 
-        const cookies = new Cookies();
+        setCookies(profile, authResult.accessToken);
 
-        cookies.set("isAuthenticated", true, {
-          path: "/",
-          expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24),
-          httpOnly: true,
-          secure: true
-        });
-        cookies.set("profile", JSON.stringify(profile), {
-          path: "/",
-          expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24),
-          httpOnly: true,
-          secure: true
-        });
-        cookies.set("id_token", authResult.accessToken, {
-          path: "/",
-          expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24),
-          httpOnly: true,
-          secure: true
-        });
-
-        return dispatch(loginSuccess(profile));
+        return dispatch(loginSuccess(profile, authResult.accessToken));
       });
     });
 
@@ -85,11 +96,8 @@ export function login() {
 }
 
 export function logout() {
+  removeCookies();
   return dispatch => {
-    const cookies = new Cookies();
-    cookies.remove("isAuthenticated");
-    cookies.remove("profile");
-    cookies.remove("id_token");
     return dispatch(logoutSuccess());
   };
 }
