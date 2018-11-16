@@ -60,6 +60,9 @@ export function login() {
         cookies.set("profile", JSON.stringify(profile), {
           path: "/"
         });
+        cookies.set("id_token", authResult.accessToken, {
+          path: "/"
+        });
 
         return dispatch(loginSuccess(profile));
       });
@@ -78,6 +81,7 @@ export function logout() {
     const cookies = new Cookies();
     cookies.remove("isAuthenticated");
     cookies.remove("profile");
+    cookies.remove("id_token");
     return dispatch(logoutSuccess());
   };
 }
