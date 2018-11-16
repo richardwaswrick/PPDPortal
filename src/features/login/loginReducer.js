@@ -1,40 +1,23 @@
 import * as ActionTypes from "./loginActionTypes";
-const jwtDecode = require("jwt-decode");
+import Cookies from "universal-cookie";
 
-const jwt = localStorage.getItem("id_token");
-const expDate = getTokenExpDate(jwt);
-const isAuthenticatedLocal = checkTokenExpiry(expDate);
+const cookies = new Cookies();
+const authCookie = cookies.get("isAuthenticated");
+const profile = cookies.get("profile");
+const isAuthenticated = checkAuthCookieExpiration(authCookie);
 
-function checkTokenExpiry(jwtExpDate) {
-  const expiryDate = new Date(0);
-
-  if (new Date() < expiryDate.setUTCSeconds(jwtExpDate)) {
+function checkAuthCookieExpiration(authCookie) {
+  if (authCookie) {
     return true;
   }
-
   return false;
-}
-
-function getTokenExpDate(jwt) {
-  if (jwt) {
-    var decodedJwt = jwtDecode(jwt);
-    const jwtExp = decodedJwt.exp;
-    return jwtExp;
-  }
-
-  return 0;
-}
-
-function getProfile() {
-  return JSON.parse(localStorage.getItem("profile"));
 }
 
 export default function auth(
   state = {
-    isAuthenticated: isAuthenticatedLocal,
-    profile: getProfile(),
-    error: "",
-    expDate: expDate
+    isAuthenticated: isAuthenticated,
+    profile: profile,
+    error: ""
   },
   action
 ) {
@@ -43,21 +26,18 @@ export default function auth(
       return Object.assign({}, state, {
         isAuthenticated: true,
         profile: action.profile,
-        error: "",
-        expDate: expDate
+        error: ""
       });
     case ActionTypes.LOGIN_ERROR:
       return Object.assign({}, state, {
         isAuthenticated: false,
         profile: null,
-        error: action.error,
-        expDate: null
+        error: action.error
       });
     case ActionTypes.LOGOUT_SUCCESS:
       return Object.assign({}, state, {
         isAuthenticated: false,
-        profile: null,
-        expDate: null
+        profile: null
       });
     default:
       return state;

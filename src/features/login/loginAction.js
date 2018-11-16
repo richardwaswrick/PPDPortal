@@ -1,5 +1,6 @@
-import { LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS } from "./loginActionTypes";
 import Auth0Lock from "auth0-lock";
+import Cookies from "universal-cookie";
+import { LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT_SUCCESS } from "./loginActionTypes";
 
 function loginSuccess(profile) {
   return {
@@ -24,13 +25,13 @@ function logoutSuccess(profile) {
 
 export function login() {
   var options = {
-    allowedConnections: ['Username-Password-Authentication'],
+    allowedConnections: ["Username-Password-Authentication"],
     autoclose: true,
     allowSignUp: false,
     auth: {
       params: {
-        responseType: 'id_token token',
-        audience: 'https://localhost:3000/graphql'
+        responseType: "id_token token",
+        audience: "https://localhost:3000/graphql"
       }
     }
   };
@@ -50,8 +51,15 @@ export function login() {
           return dispatch(loginError(error));
         }
 
-        localStorage.setItem("profile", JSON.stringify(profile));
-        localStorage.setItem("id_token", authResult.accessToken);
+        const cookies = new Cookies();
+
+        cookies.set("isAuthenticated", true, {
+          path: "/",
+          expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24)
+        });
+        cookies.set("profile", JSON.stringify(profile), {
+          path: "/"
+        });
 
         return dispatch(loginSuccess(profile));
       });
@@ -67,8 +75,9 @@ export function login() {
 
 export function logout() {
   return dispatch => {
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("profile");
+    const cookies = new Cookies();
+    cookies.remove("isAuthenticated");
+    cookies.remove("profile");
     return dispatch(logoutSuccess());
   };
 }
