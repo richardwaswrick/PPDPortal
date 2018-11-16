@@ -55,13 +55,21 @@ export function login() {
 
         cookies.set("isAuthenticated", true, {
           path: "/",
-          expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24)
+          expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24),
+          httpOnly: true,
+          secure: true
         });
         cookies.set("profile", JSON.stringify(profile), {
-          path: "/"
+          path: "/",
+          expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24),
+          httpOnly: true,
+          secure: true
         });
         cookies.set("id_token", authResult.accessToken, {
-          path: "/"
+          path: "/",
+          expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24),
+          httpOnly: true,
+          secure: true
         });
 
         return dispatch(loginSuccess(profile));
