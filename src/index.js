@@ -11,6 +11,7 @@ import App from "./components/app";
 import history from "./history";
 import { ApolloProvider } from "react-apollo";
 import { graphqlClient } from "./api/apolloClient";
+import '@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css';
 
 const store = configureStore();
 
