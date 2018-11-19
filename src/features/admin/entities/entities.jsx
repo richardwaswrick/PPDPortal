@@ -1,6 +1,4 @@
 import * as React from "react";
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
 import { Card } from "reactstrap";
 import { EditingState } from "@devexpress/dx-react-grid";
 import {
@@ -12,22 +10,9 @@ import {
   TableColumnVisibility
 } from "@devexpress/dx-react-grid-bootstrap4";
 
-// import { generateRows, defaultColumnValues } from "./demoData";
+import { GetTasks } from "./entitiesData";
 
-const GET_ENTITIES = gql`
-  {
-    allTasks {
-      nodes {
-        taskId
-        taskName
-        lastRunDatetime
-        taskTypeByTaskTypeId {
-          taskTypeName
-        }
-      }
-    }
-  }
-`;
+const getRowId = row => row.taskId;
 
 export default class Entitites extends React.Component {
   constructor(props) {
@@ -43,15 +28,20 @@ export default class Entitites extends React.Component {
           getCellValue: row =>
             row.taskTypeByTaskTypeId
               ? row.taskTypeByTaskTypeId.taskTypeName
-              : undefined
+              : ""
         },
-        { name: "lastRunDatetime", title: "Last Run" }
+        {
+          name: "lastRunDatetime",
+          title: "Last Run",
+          getCellValue: row => (row.lastRunDatetime ? row.lastRunDatetime : "")
+        }
       ],
       tableColumnExtensions: [{ columnName: "taskid", width: 60 }],
       editingRowIds: [],
       addedRows: [],
       rowChanges: {},
       defaultHiddenColumnNames: ["taskId"],
+      rows: []
     };
 
     this.changeAddedRows = this.changeAddedRows.bind(this);
@@ -98,6 +88,18 @@ export default class Entitites extends React.Component {
       rows = rows.filter(row => !deletedSet.has(row.taskId));
     }
     this.setState({ rows });
+    console.log(this.state.rows);
+  }
+
+  componentWillMount() {
+    try {
+      var tasks = GetTasks();
+      tasks.then(response => {
+        this.setState({ rows: response.data.allTasks.nodes });
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   render() {
@@ -107,45 +109,33 @@ export default class Entitites extends React.Component {
       editingRowIds,
       rowChanges,
       addedRows,
-      defaultHiddenColumnNames
+      defaultHiddenColumnNames,
+      rows
     } = this.state;
-
     return (
       <Card>
-        <Query query={GET_ENTITIES}>
-          {({ loading, error, data }) => {
-            if (loading) return "Loading...";
-            if (error) return `Error! ${error.message}`;
-            return (
-              <Grid
-                rows={data.allTasks.nodes}
-                columns={columns}
-                getRowId={data.allTasks.nodes.taskId}
-              >
-                <EditingState
-                  editingRowIds={editingRowIds}
-                  onEditingRowIdsChange={this.changeEditingRowIds}
-                  rowChanges={rowChanges}
-                  onRowChangesChange={this.changeRowChanges}
-                  addedRows={addedRows}
-                  onAddedRowsChange={this.changeAddedRows}
-                  onCommitChanges={this.commitChanges}
-                />
-                <Table columnExtensions={tableColumnExtensions} />
-                <TableHeaderRow />
-                <TableEditRow />
-                <TableEditColumn
-                  showAddCommand={!addedRows.length}
-                  showEditCommand
-                  showDeleteCommand
-                />
-                <TableColumnVisibility
-                  defaultHiddenColumnNames={defaultHiddenColumnNames}
-                />
-              </Grid>
-            );
-          }}
-        </Query>
+        <Grid rows={rows} columns={columns} getRowId={getRowId}>
+          <EditingState
+            editingRowIds={editingRowIds}
+            onEditingRowIdsChange={this.changeEditingRowIds}
+            rowChanges={rowChanges}
+            onRowChangesChange={this.changeRowChanges}
+            addedRows={addedRows}
+            onAddedRowsChange={this.changeAddedRows}
+            onCommitChanges={this.commitChanges}
+          />
+          <Table columnExtensions={tableColumnExtensions} />
+          <TableHeaderRow />
+          <TableEditRow />
+          <TableEditColumn
+            showAddCommand={!addedRows.length}
+            showEditCommand
+            showDeleteCommand
+          />
+          <TableColumnVisibility
+            defaultHiddenColumnNames={defaultHiddenColumnNames}
+          />
+        </Grid>
       </Card>
     );
   }

@@ -35,6 +35,5 @@ export const graphqlClient = new ApolloClient({
       isConnected: true
     }
   }
-
   //link: authLink.concat(httpLink),
 });
