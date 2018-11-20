@@ -11,7 +11,7 @@ import {
   DropdownMenu
 } from "reactstrap";
 import { connect } from "react-redux";
-import Login from "../../features/login/loginContainer";
+import Login from "../../modules/login/loginContainer";
 
 class Header extends Component {
   constructor(props) {

@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-import tasks from "../features/admin/tasks/taskReducer";
+import tasks from "../modules/admin/tasks/taskReducer";
 import ajaxCallsInProgress from "./ajaxStatusReducer";
-import home from "../features/home/homeReducer";
-import auth from "../features/login/loginReducer";
+import home from "../modules/home/homeReducer";
+import auth from "../modules/login/loginReducer";
 
 const rootReducer = combineReducers({
   tasks,

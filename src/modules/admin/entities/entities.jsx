@@ -10,7 +10,8 @@ import {
   TableColumnVisibility
 } from "@devexpress/dx-react-grid-bootstrap4";
 
-import { GetTasks } from "./entitiesData";
+import { GetTasks } from "./graphql/tasksQuery";
+import { UpdateTask } from "./graphql/updateTask";
 
 const getRowId = row => row.taskId;
 
@@ -36,40 +37,19 @@ export default class Entitites extends React.Component {
           getCellValue: row => (row.lastRunDatetime ? row.lastRunDatetime : "")
         }
       ],
-      tableColumnExtensions: [{ columnName: "taskid", width: 60 }],
-      editingRowIds: [],
-      addedRows: [],
-      rowChanges: {},
-      defaultHiddenColumnNames: ["taskId"],
+      hiddenColumnNames: ["taskId"],
       rows: []
     };
 
-    this.changeAddedRows = this.changeAddedRows.bind(this);
-    this.changeEditingRowIds = this.changeEditingRowIds.bind(this);
-    this.changeRowChanges = this.changeRowChanges.bind(this);
     this.commitChanges = this.commitChanges.bind(this);
-  }
-
-  changeAddedRows(addedRows) {
-    const initialized = addedRows.map(row =>
-      Object.keys(row).length ? row : { TaskName: "New Task" }
-    );
-    this.setState({ addedRows: initialized });
-  }
-
-  changeEditingRowIds(editingRowIds) {
-    this.setState({ editingRowIds });
-  }
-
-  changeRowChanges(rowChanges) {
-    this.setState({ rowChanges });
   }
 
   commitChanges({ added, changed, deleted }) {
     let { rows } = this.state;
+
     if (added) {
       const startingAddedId =
-        rows.length > 0 ? rows[rows.length - 1].taskid + 1 : 0;
+        rows.length > 0 ? rows[rows.length - 1].id + 1 : 0;
       rows = [
         ...rows,
         ...added.map((row, index) => ({
@@ -78,23 +58,33 @@ export default class Entitites extends React.Component {
         }))
       ];
     }
+
     if (changed) {
       rows = rows.map(row =>
-        changed[row.id] ? { ...row, ...changed[row.taskId] } : row
+        changed[row.taskId] ? { ...row, ...changed[row.taskId] } : row
       );
+
+      //Todo: Find a better way to get the values
+      var objVals = Object.entries(changed);
+      var updateTask = {
+        taskId: objVals[0][0],
+        task: objVals[0][1]
+      };
+
+      UpdateTask(updateTask.taskId, updateTask.task);
     }
+
     if (deleted) {
       const deletedSet = new Set(deleted);
       rows = rows.filter(row => !deletedSet.has(row.taskId));
     }
+
     this.setState({ rows });
-    console.log(this.state.rows);
   }
 
   componentWillMount() {
     try {
-      var tasks = GetTasks();
-      tasks.then(response => {
+      GetTasks().then(response => {
         this.setState({ rows: response.data.allTasks.nodes });
       });
     } catch (e) {
@@ -105,35 +95,20 @@ export default class Entitites extends React.Component {
   render() {
     const {
       columns,
-      tableColumnExtensions,
-      editingRowIds,
-      rowChanges,
-      addedRows,
-      defaultHiddenColumnNames,
+      hiddenColumnNames,
       rows
     } = this.state;
+
     return (
       <Card>
         <Grid rows={rows} columns={columns} getRowId={getRowId}>
-          <EditingState
-            editingRowIds={editingRowIds}
-            onEditingRowIdsChange={this.changeEditingRowIds}
-            rowChanges={rowChanges}
-            onRowChangesChange={this.changeRowChanges}
-            addedRows={addedRows}
-            onAddedRowsChange={this.changeAddedRows}
-            onCommitChanges={this.commitChanges}
-          />
-          <Table columnExtensions={tableColumnExtensions} />
+          <EditingState onCommitChanges={this.commitChanges} />
+          <Table />
           <TableHeaderRow />
           <TableEditRow />
-          <TableEditColumn
-            showAddCommand={!addedRows.length}
-            showEditCommand
-            showDeleteCommand
-          />
+          <TableEditColumn showAddCommand showEditCommand showDeleteCommand />
           <TableColumnVisibility
-            defaultHiddenColumnNames={defaultHiddenColumnNames}
+            hiddenColumnNames={hiddenColumnNames}
           />
         </Grid>
       </Card>

@@ -1,9 +1,10 @@
-import ManageEntitiesPage from "./features/admin/entities/entities";
-import Home from "./features/home/homeComponent";
-import ManageTaskPage from "./features/admin/tasks/manageTaskPage";
+import Entitites from "./modules/admin/entities/entities";
+import Home from "./modules/home/homeComponent";
+import ManageTaskPage from "./modules/admin/tasks/manageTaskPage";
 import RequireAuth from "./components/auth/requireAuth";
-import TasksPage from "./features/admin/tasks/tasksPage";
-import login from "./features/login/loginMessage";
+import TasksPage from "./modules/admin/tasks/tasksPage";
+import login from "./modules/login/loginMessage";
+//import Task from "./modules/admin/entities/containers/task";
 
 export const routes = [
   {
@@ -35,7 +36,7 @@ export const routes = [
   },
   {
     key: "entitiesRoute",
-    component: RequireAuth(ManageEntitiesPage),
+    component: RequireAuth(Entitites),
     path: "/admin/entities"
   }
 ];
