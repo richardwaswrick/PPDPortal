@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Card } from "reactstrap";
-import { EditingState } from "@devexpress/dx-react-grid";
+import { EditingState, DataTypeProvider } from "@devexpress/dx-react-grid";
 import {
   Grid,
   Table,
@@ -12,8 +12,13 @@ import {
 
 import { GetTasks } from "./graphql/tasksQuery";
 import { UpdateTask } from "./graphql/updateTask";
+import TaskTypes from "./components/taskTypeDrownDown";
 
 const getRowId = row => row.taskId;
+
+const TaskTypeTypeProvider = props => (
+  <DataTypeProvider editorComponent={TaskTypes} {...props} />
+);
 
 export default class Entitites extends React.Component {
   constructor(props) {
@@ -38,7 +43,8 @@ export default class Entitites extends React.Component {
         }
       ],
       hiddenColumnNames: ["taskId"],
-      rows: []
+      rows: [],
+      TaskTypeColumns: ["taskTypeName"]
     };
 
     this.commitChanges = this.commitChanges.bind(this);
@@ -93,23 +99,18 @@ export default class Entitites extends React.Component {
   }
 
   render() {
-    const {
-      columns,
-      hiddenColumnNames,
-      rows
-    } = this.state;
+    const { columns, hiddenColumnNames, rows, TaskTypeColumns } = this.state;
 
     return (
       <Card>
         <Grid rows={rows} columns={columns} getRowId={getRowId}>
+          <TaskTypeTypeProvider for={TaskTypeColumns} />
           <EditingState onCommitChanges={this.commitChanges} />
           <Table />
           <TableHeaderRow />
           <TableEditRow />
           <TableEditColumn showAddCommand showEditCommand showDeleteCommand />
-          <TableColumnVisibility
-            hiddenColumnNames={hiddenColumnNames}
-          />
+          <TableColumnVisibility hiddenColumnNames={hiddenColumnNames} />
         </Grid>
       </Card>
     );
