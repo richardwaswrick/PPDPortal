@@ -13,20 +13,32 @@ const GET_TASK_TYPE = gql`
   }
 `;
 
-const TaskTypes = ({ onTaskTypeSelected }) => (
+const TaskTypes = ({ onValueChange }) => (
   <Query query={GET_TASK_TYPE}>
     {({ loading, error, data }) => {
       if (loading) return "Loading...";
       if (error) return `Error! ${error.message}`;
 
+      const handleChange = event => {
+        const returnValue = {
+          id: event.target.options[event.target.selectedIndex].value,
+          text: event.target.options[event.target.selectedIndex].text
+        };
+        onValueChange(returnValue);
+      };
+
       return (
         <select
           className="form-control"
           name="taskType"
-          onChange={onTaskTypeSelected}
+          onChange={handleChange}
         >
           {data.allTaskTypes.nodes.map(taskType => (
-            <option key={taskType.taskTypeId} value={taskType.taskTypeName}>
+            <option
+              key={taskType.taskTypeName}
+              value={taskType.taskTypeId}
+              label={taskType.taskTypeName}
+            >
               {taskType.taskTypeName}
             </option>
           ))}

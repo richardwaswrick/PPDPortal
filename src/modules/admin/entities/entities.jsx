@@ -16,7 +16,7 @@ import TaskTypes from "./components/taskTypeDrownDown";
 
 const getRowId = row => row.taskId;
 
-const TaskTypeTypeProvider = props => (
+const TaskTypeProvider = props => (
   <DataTypeProvider editorComponent={TaskTypes} {...props} />
 );
 
@@ -29,7 +29,7 @@ export default class Entitites extends React.Component {
         { name: "taskId", title: "Task Id" },
         { name: "taskName", title: "Task Name" },
         {
-          name: "taskTypeName",
+          name: "taskTypeId",
           title: "Type",
           getCellValue: row =>
             row.taskTypeByTaskTypeId
@@ -44,7 +44,17 @@ export default class Entitites extends React.Component {
       ],
       hiddenColumnNames: ["taskId"],
       rows: [],
-      TaskTypeColumns: ["taskTypeName"]
+      TaskTypeColumns: ["taskTypeId"],
+      editingColumnExtensions: [
+        {
+          columnName: "taskTypeId",
+          createRowChange: (row, value) => ({
+            taskId: row.taskId,
+            taskTypeId: parseInt(value.id,10),
+            taskTypeByTaskTypeId: { taskTypeName: value.text }
+          })
+        }
+      ]
     };
 
     this.commitChanges = this.commitChanges.bind(this);
@@ -72,12 +82,11 @@ export default class Entitites extends React.Component {
 
       //Todo: Find a better way to get the values
       var objVals = Object.entries(changed);
-      var updateTask = {
-        taskId: objVals[0][0],
-        task: objVals[0][1]
-      };
+      var updatedTask = objVals[0][1];
 
-      UpdateTask(updateTask.taskId, updateTask.task);
+      if (updatedTask) {
+        UpdateTask(updatedTask);
+      }
     }
 
     if (deleted) {
@@ -99,13 +108,22 @@ export default class Entitites extends React.Component {
   }
 
   render() {
-    const { columns, hiddenColumnNames, rows, TaskTypeColumns } = this.state;
+    const {
+      columns,
+      hiddenColumnNames,
+      rows,
+      TaskTypeColumns,
+      editingColumnExtensions
+    } = this.state;
 
     return (
       <Card>
         <Grid rows={rows} columns={columns} getRowId={getRowId}>
-          <TaskTypeTypeProvider for={TaskTypeColumns} />
-          <EditingState onCommitChanges={this.commitChanges} />
+          <EditingState
+            onCommitChanges={this.commitChanges}
+            columnExtensions={editingColumnExtensions}
+          />
+          <TaskTypeProvider for={TaskTypeColumns} />
           <Table />
           <TableHeaderRow />
           <TableEditRow />
