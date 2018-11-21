@@ -2,8 +2,8 @@ import { graphqlClient } from "../../../../api/apolloClient";
 import { TaskInfo } from "./task.js";
 import gql from "fraql";
 
-export function GetTasks() {
-  const result = graphqlClient.query({
+export async function GetTasks() {
+  const result = await graphqlClient.query({
     query: gql`
       {
         allTasks {

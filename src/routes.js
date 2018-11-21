@@ -4,7 +4,7 @@ import ManageTaskPage from "./modules/admin/tasks/manageTaskPage";
 import RequireAuth from "./components/auth/requireAuth";
 import TasksPage from "./modules/admin/tasks/tasksPage";
 import login from "./modules/login/loginMessage";
-//import Task from "./modules/admin/entities/containers/task";
+import TaskGrid from "./modules/admin/tasks2/index"
 
 export const routes = [
   {
@@ -39,8 +39,12 @@ export const routes = [
     component: RequireAuth(Entitites),
     path: "/admin/entities"
   }
+  ,
+  {
+    key: "taskGridRoute",
+    component: RequireAuth(TaskGrid),
+    path: "/admin/taskGrid"
+  }
 ];
-
-//console.log(routes);
 
 export default routes;

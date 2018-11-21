@@ -1,9 +1,8 @@
 import { graphqlClient } from "../../../../api/apolloClient";
 import gql from "fraql";
 
-export function UpdateTask(inTaskPatch) {
+export function UpdateTask(inTaskId, inTaskPatch) {
 
-  const taskId = inTaskPatch.taskId;
   const mappedTask = {
     taskName: inTaskPatch.taskName,
     lastRunDatetime: inTaskPatch.lastRunDatetime,
@@ -13,15 +12,17 @@ export function UpdateTask(inTaskPatch) {
   };
 
   const result = graphqlClient.mutate({
-    variables: { taskId: taskId, taskPatch: mappedTask },
+    variables: { taskId: inTaskId, taskPatch: mappedTask },
     mutation: gql`
       mutation UpdateTaskByTaskId($taskId: Int!, $taskPatch: TaskPatch!) {
         updateTaskByTaskId(
           input: { taskId: $taskId, taskPatch: $taskPatch }
         ) {
           task {
+            taskId
             taskName
             lastRunDatetime
+            taskTypeId
             taskTypeByTaskTypeId {
               taskTypeName
             }

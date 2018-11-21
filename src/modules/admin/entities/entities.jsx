@@ -15,9 +15,14 @@ import { UpdateTask } from "./graphql/updateTask";
 import TaskTypes from "./components/taskTypeDrownDown";
 
 const getRowId = row => row.taskId;
-
 const TaskTypeProvider = props => (
   <DataTypeProvider editorComponent={TaskTypes} {...props} />
+);
+
+const DateFormatter = ({ value }) =>
+  value.replace(/(\d{4})-(\d{2})-(\d{2})/, "$3.$2.$1");
+const DateTypeProvider = props => (
+  <DataTypeProvider formatterComponent={DateFormatter} {...props} />
 );
 
 export default class Entitites extends React.Component {
@@ -50,11 +55,12 @@ export default class Entitites extends React.Component {
           columnName: "taskTypeId",
           createRowChange: (row, value) => ({
             taskId: row.taskId,
-            taskTypeId: parseInt(value.id,10),
+            taskTypeId: parseInt(value.id, 10),
             taskTypeByTaskTypeId: { taskTypeName: value.text }
           })
         }
-      ]
+      ],
+      dateColumns: ["lastRunDatetime"]
     };
 
     this.commitChanges = this.commitChanges.bind(this);
@@ -113,7 +119,8 @@ export default class Entitites extends React.Component {
       hiddenColumnNames,
       rows,
       TaskTypeColumns,
-      editingColumnExtensions
+      editingColumnExtensions,
+      dateColumns
     } = this.state;
 
     return (
@@ -125,6 +132,7 @@ export default class Entitites extends React.Component {
           />
           <TaskTypeProvider for={TaskTypeColumns} />
           <Table />
+          <DateTypeProvider for={dateColumns} />
           <TableHeaderRow />
           <TableEditRow />
           <TableEditColumn showAddCommand showEditCommand showDeleteCommand />
