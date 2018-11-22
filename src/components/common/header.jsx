@@ -33,14 +33,8 @@ class Header extends Component {
                 Administration
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem tag="a" href="/admin/Entities">
-                  Entities
-                </DropdownItem>
-                <DropdownItem tag="a" href="/admin/Tasks">
+                <DropdownItem tag="a" href="/admin/tasks">
                   Tasks
-                </DropdownItem>
-                <DropdownItem tag="a" href="/admin/taskGrid">
-                  Task Grid
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>

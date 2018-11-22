@@ -9,11 +9,11 @@ import DataGrid, {
 } from "devextreme-react/data-grid";
 
 import CustomStore from "devextreme/data/custom_store";
-import { GetTasks } from "../entities/graphql/tasksQuery";
-import { GetTaskTypes } from "../entities/graphql/taskTypesQuery";
-import { UpdateTask } from "../entities/graphql/updateTask";
-import { InsertTask } from "../entities/graphql/insertTask";
-import { DeleteTask } from "../entities/graphql/deleteTask";
+import { GetTasks } from "./graphql/tasksQuery";
+import { GetTaskTypes } from "./graphql/taskTypesQuery";
+import { UpdateTask } from "./graphql/updateTask";
+import { InsertTask } from "./graphql/insertTask";
+import { DeleteTask } from "./graphql/deleteTask";
 
 const lookupDataSource = {
   store: new CustomStore({
@@ -49,6 +49,7 @@ const dataSource = {
     },
     update: async function(key, values) {
       try {
+        console.log(values);
         return await UpdateTask(key, values).then(response => {
           return response.data.updateTaskByTaskId.task;
         });
@@ -102,7 +103,7 @@ class TaskGrid extends React.Component {
           />
 
           <Column dataField={"taskName"} />
-          <Column dataField={"lastRunDatetime"} dataType={"date"} />
+          <Column dataField={"lastRunDatetime"} dataType={"datetime"} />
           <Column dataField={"taskTypeId"} caption={"Type"}>
             <Lookup
               dataSource={lookupDataSource}
