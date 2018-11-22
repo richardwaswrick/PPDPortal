@@ -12,6 +12,8 @@ import CustomStore from "devextreme/data/custom_store";
 import { GetTasks } from "../entities/graphql/tasksQuery";
 import { GetTaskTypes } from "../entities/graphql/taskTypesQuery";
 import { UpdateTask } from "../entities/graphql/updateTask";
+import { InsertTask } from "../entities/graphql/insertTask";
+import { DeleteTask } from "../entities/graphql/deleteTask";
 
 const lookupDataSource = {
   store: new CustomStore({
@@ -33,73 +35,62 @@ const lookupDataSource = {
 const dataSource = {
   store: new CustomStore({
     key: "taskId",
-    load: function() {
+    load: async function() {
       try {
-        return GetTasks().then(response => {
+        return await GetTasks().then(response => {
           return {
             data: response.data.allTasks.nodes,
             totalCount: response.data.allTasks.nodes.totalCount
           };
         });
       } catch (e) {
-        console.log(e);
-        throw Error("Data Loading Error");
+        throw Error("An error has occured: " + JSON.stringify(e));
       }
     },
-    update: function(key, values) {
+    update: async function(key, values) {
       try {
-        UpdateTask(key, values);
+        return await UpdateTask(key, values).then(response => {
+          return response.data.updateTaskByTaskId.task;
+        });
       } catch (e) {
-        console.log(e);
-        throw Error("Update Error");
+        throw Error("An error has occured: " + JSON.stringify(e));
+      }
+    },
+    insert: async function(values) {
+      try {
+        return await InsertTask(values).then(response => {
+          return response.data.createTask.task;
+        });
+      } catch (e) {
+        throw Error("An error has occured: " + JSON.stringify(e));
+      }
+    },
+    remove: async function(key) {
+      try {
+        return await DeleteTask(key).then(response => {
+          const result = response.data.deleteTaskByTaskId.task.taskId;
+          console.log(result);
+          return result;
+        });
+      } catch (e) {
+        throw Error("An error has occured..." + JSON.stringify(e));
       }
     }
   })
 };
 
 class TaskGrid extends React.Component {
-  //constructor(props) {
-  //  super(props);
-  // this.state = { events: [] };
-  // this.logEvent = this.logEvent.bind(this);
-  // this.onEditingStart = this.logEvent.bind(this, "EditingStart");
-  // this.onInitNewRow = this.logEvent.bind(this, "InitNewRow");
-  // this.onRowInserting = this.logEvent.bind(this, "RowInserting");
-  // this.onRowInserted = this.logEvent.bind(this, "RowInserted");
-  // this.onRowUpdating = this.logEvent.bind(this, "RowUpdating");
-  // this.onRowUpdated = this.logEvent.bind(this, "RowUpdated");
-  // this.onRowRemoving = this.logEvent.bind(this, "RowRemoving");
-  // this.onRowRemoved = this.logEvent.bind(this, "RowRemoved");
-  // this.clearEvents = this.clearEvents.bind(this);
-  //}
-
-  // logEvent(eventName) {
-  //   this.setState(state => {
-  //     return { events: [eventName].concat(state.events) };
-  //   });
-  // }
-
-  // clearEvents() {
-  //   this.setState({ events: [] });
-  // }
-
   render() {
     return (
       <React.Fragment>
         <DataGrid
           id={"gridContainer"}
           dataSource={dataSource}
-          keyExpr={"taskid"}
+          keyExpr={"taskId"}
           allowColumnReordering={true}
           showBorders={true}
-          // onEditingStart={this.onEditingStart}
-          // onInitNewRow={this.onInitNewRow}
-          // onRowInserting={this.onRowInserting}
-          // onRowInserted={this.onRowInserted}
-          // onRowUpdating={this.onRowUpdating}
-          // onRowUpdated={this.onRowUpdated}
-          // onRowRemoving={this.onRowRemoving}
-          // onRowRemoved={this.onRowRemoved}
+          showColumnLines={true}
+          showRowLines={true}
         >
           <Paging enabled={true} />
           <Editing
@@ -112,8 +103,7 @@ class TaskGrid extends React.Component {
 
           <Column dataField={"taskName"} />
           <Column dataField={"lastRunDatetime"} dataType={"date"} />
-
-          <Column dataField={"taskTypeId"} caption={"Type"} width={125}>
+          <Column dataField={"taskTypeId"} caption={"Type"}>
             <Lookup
               dataSource={lookupDataSource}
               displayExpr={"taskTypeName"}
@@ -124,18 +114,6 @@ class TaskGrid extends React.Component {
           <Paging defaultPageSize={10} />
           <Pager showPageSizeSelector={true} allowedPageSizes={[5, 10, 100]} />
         </DataGrid>
-
-        {/* <div id={"events"}>
-          <div>
-            <div className={"caption"}>Fired events</div>
-            <Button id={"clear"} text={"Clear"} onClick={this.clearEvents} />
-          </div>
-          <ul>
-            {this.state.events.map((event, index) => (
-              <li key={index}>{event}</li>
-            ))}
-          </ul>
-        </div> */}
       </React.Fragment>
     );
   }

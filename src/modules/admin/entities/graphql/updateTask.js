@@ -1,7 +1,7 @@
 import { graphqlClient } from "../../../../api/apolloClient";
 import gql from "fraql";
 
-export function UpdateTask(inTaskId, inTaskPatch) {
+export async function UpdateTask(inTaskId, inTaskPatch) {
 
   const mappedTask = {
     taskName: inTaskPatch.taskName,
@@ -11,7 +11,7 @@ export function UpdateTask(inTaskId, inTaskPatch) {
     modifyDatetime: new Date()
   };
 
-  const result = graphqlClient.mutate({
+  const result = await graphqlClient.mutate({
     variables: { taskId: inTaskId, taskPatch: mappedTask },
     mutation: gql`
       mutation UpdateTaskByTaskId($taskId: Int!, $taskPatch: TaskPatch!) {
