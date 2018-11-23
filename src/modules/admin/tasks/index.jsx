@@ -70,7 +70,6 @@ const dataSource = {
       try {
         return await DeleteTask(key).then(response => {
           const result = response.data.deleteTaskByTaskId.task.taskId;
-          console.log(result);
           return result;
         });
       } catch (e) {

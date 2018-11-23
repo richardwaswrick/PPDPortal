@@ -36,6 +36,9 @@ class Header extends Component {
                 <DropdownItem tag="a" href="/admin/tasks">
                   Tasks
                 </DropdownItem>
+                <DropdownItem tag="a" href="/admin/entities">
+                  Entities
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
             <Login />

@@ -6,6 +6,10 @@ export const TaskInfo = gql`
     taskName
     lastRunDatetime
     taskTypeId
+    createDatetime
+    createByName
+    modifyDatetime
+    modifyByName
     taskTypeByTaskTypeId {
       taskTypeName
     }

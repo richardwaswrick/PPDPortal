@@ -2,6 +2,7 @@ import Home from "./modules/home/homeComponent";
 import RequireAuth from "./components/auth/requireAuth";
 import login from "./modules/login/loginMessage";
 import Tasks from "./modules/admin/tasks/index"
+import Entities from "./modules/admin/entities/index"
 
 export const routes = [
   {
@@ -19,6 +20,11 @@ export const routes = [
     key: "taskGridRoute",
     component: RequireAuth(Tasks),
     path: "/admin/tasks"
+  },
+  {
+    key: "entityGridRoute",
+    component: RequireAuth(Entities),
+    path: "/admin/entities"
   }
 ];
 
