@@ -127,24 +127,6 @@ export async function DeleteShippingRate(id) {
   return result;
 }
 
-
-export async function GetEntityDropDown() {
-  const result = await graphqlClient.query({
-    query: gql`
-      {
-        allEntities {
-          nodes {
-            entityId
-            entityName
-          }
-        }
-      }
-    `
-  });
-  return result;
-}
-
-
 export async function GetShippingTypeDropDown() {
   const result = await graphqlClient.query({
     query: gql`

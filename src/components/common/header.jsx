@@ -5,10 +5,10 @@ import {
   NavbarBrand,
   NavbarToggler,
   Collapse,
-  Dropdown,
   DropdownItem,
   DropdownToggle,
-  DropdownMenu
+  DropdownMenu,
+  UncontrolledButtonDropdown
 } from "reactstrap";
 import { connect } from "react-redux";
 import Login from "../../modules/login/loginContainer";
@@ -28,7 +28,7 @@ class Header extends Component {
       return (
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="navbar navbar-expand-lg navbar-light bg-light" navbar>
-            <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+            <UncontrolledButtonDropdown>
               <DropdownToggle tag="a" className="nav-link" caret>
                 Administration
               </DropdownToggle>
@@ -39,19 +39,29 @@ class Header extends Component {
                 <DropdownItem tag="a" href="/admin/entities">
                   Entities
                 </DropdownItem>
-
-                <DropdownItem tag="a" href="/admin/shippingRates">
-                  Shipping Rates
-                </DropdownItem>
                 <DropdownItem tag="a" href="/admin/shippingTypes">
                   Shipping Types
                 </DropdownItem>
                 <DropdownItem tag="a" href="/admin/shippingweights">
                   Shipping Weight Types
                 </DropdownItem>
-
               </DropdownMenu>
-            </Dropdown>
+            </UncontrolledButtonDropdown>
+
+            <UncontrolledButtonDropdown>
+              <DropdownToggle tag="a" className="nav-link" caret>
+                Suppliers
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem tag="a" href="/admin/shippingRates">
+                  Shipping Rates
+                </DropdownItem>
+                <DropdownItem tag="a" href="/admin/minimumquantities">
+                  Minimum Quantities
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledButtonDropdown>
+
             <Login />
           </Nav>
         </Collapse>

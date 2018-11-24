@@ -9,11 +9,13 @@ import DataGrid, {
 } from "devextreme-react/data-grid";
 
 import CustomStore from "devextreme/data/custom_store";
-import { GetTasks } from "./graphql/tasksQuery";
-import { GetTaskTypes } from "./graphql/taskTypesQuery";
-import { UpdateTask } from "./graphql/updateTask";
-import { InsertTask } from "./graphql/insertTask";
-import { DeleteTask } from "./graphql/deleteTask";
+import {
+  GetTasks,
+  GetTaskTypes,
+  UpdateTask,
+  InsertTask,
+  DeleteTask
+} from "./graphql";
 
 const lookupDataSource = {
   store: new CustomStore({

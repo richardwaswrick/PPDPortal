@@ -7,10 +7,12 @@ import DataGrid, {
 } from "devextreme-react/data-grid";
 
 import CustomStore from "devextreme/data/custom_store";
-import { GetEntities } from "./graphql/entitiesQuery";
-import { UpdateEntity } from "./graphql/updateEntity";
-import { InsertEntity } from "./graphql/insertEntity";
-import { DeleteEntity } from "./graphql/deleteEntity";
+import {
+  GetEntities,
+  UpdateEntity,
+  InsertEntity,
+  DeleteEntity
+} from "./graphql";
 
 const dataSource = {
   store: new CustomStore({

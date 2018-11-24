@@ -6,6 +6,7 @@ import Entities from "./modules/admin/entities/index";
 import ShippingWeightTypes from "./modules/admin/shippingWeights/index";
 import ShippingTypes from "./modules/admin/shippingTypes/index";
 import ShippingRates from "./modules/admin/shippingRates/index";
+import MinimumQuantities from "./modules/admin/minimumQuantities/index";
 
 export const routes = [
   {
@@ -39,11 +40,15 @@ export const routes = [
     component: RequireAuth(ShippingTypes),
     path: "/admin/shippingtypes"
   },
-
   {
     key: "shippingRateRoute",
     component: RequireAuth(ShippingRates),
     path: "/admin/shippingrates"
+  },
+  {
+    key: "minQtyRateRoute",
+    component: RequireAuth(MinimumQuantities),
+    path: "/admin/minimumquantities"
   }
 ];
 

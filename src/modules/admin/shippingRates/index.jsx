@@ -13,12 +13,12 @@ import {
   UpdateShippingRate,
   CreateShippingRate,
   DeleteShippingRate,
-  GetEntityDropDown,
   GetShippingTypeDropDown,
   GetWeightTypeDropDown
 } from "./graphql";
 
 import { HeaderFilter } from "devextreme-react/tree-list";
+import { GetEntityDropDown } from "../entities/graphql";
 
 const lookupEntityDataSource = {
   store: new CustomStore({
