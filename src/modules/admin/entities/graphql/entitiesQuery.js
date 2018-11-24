@@ -12,7 +12,8 @@ export async function GetEntities() {
             }
           }
       }
-    `
+    `,
+    fetchPolicy: "cache-first"
   });
   return result;
 }

@@ -16,16 +16,3 @@ export async function GetTasks() {
   });
   return result;
 }
-
-// import gql from "fraql";
-// import { TaskInfo } from "./task.js";
-
-// export const Tasks = gql`
-//   {
-//     allTasks {
-//       nodes {
-//         ${TaskInfo}
-//       }
-//     }
-//   }
-// `;

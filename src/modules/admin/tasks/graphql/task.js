@@ -11,6 +11,7 @@ export const TaskInfo = gql`
     modifyDatetime
     modifyByName
     taskTypeByTaskTypeId {
+      taskTypeId
       taskTypeName
     }
   }

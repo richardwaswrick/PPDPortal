@@ -39,6 +39,17 @@ class Header extends Component {
                 <DropdownItem tag="a" href="/admin/entities">
                   Entities
                 </DropdownItem>
+
+                <DropdownItem tag="a" href="/admin/shippingRates">
+                  Shipping Rates
+                </DropdownItem>
+                <DropdownItem tag="a" href="/admin/shippingTypes">
+                  Shipping Types
+                </DropdownItem>
+                <DropdownItem tag="a" href="/admin/shippingweights">
+                  Shipping Weight Types
+                </DropdownItem>
+
               </DropdownMenu>
             </Dropdown>
             <Login />

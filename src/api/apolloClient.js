@@ -1,5 +1,9 @@
 import ApolloClient from "apollo-boost";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import {
+  InMemoryCache,
+  //defaultDataIdFromObject
+} from "apollo-cache-inmemory";
+
 // import { ApolloLink } from 'apollo-link';
 // import { createHttpLink } from "apollo-link-http";
 // import { setContext } from "apollo-link-context";
@@ -26,14 +30,27 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 // });
 
 const cache = new InMemoryCache();
+//   {
+//   dataIdFromObject: object => {
+//     switch (object.__typename) {
+//       case "Task":
+//         return object.taskId;
+//       case "TaskType":
+//         return object.taskTypeId;
+//       case "Entity":
+//         return object.entityId;
+//       case "TasksConnection":
+//         return object.taskId;
+//       case "EntitiesConnection":
+//         return object.entityId;
+//       default:
+//         return defaultDataIdFromObject(object);
+//     }
+//   }
+// });
 
 export const graphqlClient = new ApolloClient({
   cache,
-  uri: "http://localhost:7071/graphql",
-  clientState: {
-    defaults: {
-      isConnected: true
-    }
-  }
+  uri: "http://localhost:7071/graphql"
   //link: authLink.concat(httpLink),
 });

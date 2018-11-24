@@ -7,20 +7,20 @@ import DataGrid, {
 } from "devextreme-react/data-grid";
 
 import CustomStore from "devextreme/data/custom_store";
-import { GetEntities } from "./graphql/entitiesQuery";
-import { UpdateEntity } from "./graphql/updateEntity";
-import { InsertEntity } from "./graphql/insertEntity";
-import { DeleteEntity } from "./graphql/deleteEntity";
+import { ReadShippingTypes } from "./graphql";
+import { UpdateShippingType } from "./graphql";
+import { CreateShippingType } from "./graphql";
+import { DeleteShippingType } from "./graphql";
 
 const dataSource = {
   store: new CustomStore({
-    key: "entityId",
+    key: "shippingTypeId",
     load: async function() {
       try {
-        return await GetEntities().then(response => {
+        return await ReadShippingTypes().then(response => {
           return {
-            data: response.data.allEntities.nodes,
-            totalCount: response.data.allEntities.nodes.totalCount
+            data: response.data.allShippingTypes.nodes,
+            totalCount: response.data.allShippingTypes.nodes.totalCount
           };
         });
       } catch (e) {
@@ -29,8 +29,9 @@ const dataSource = {
     },
     update: async function(key, values) {
       try {
-        return await UpdateEntity(key, values).then(response => {
-          return response.data.updateEntityByEntityId.entity;
+        return await UpdateShippingType(key, values).then(response => {
+          return response.data.updateShippingTypeByShippingTypeId
+            .shippingType;
         });
       } catch (e) {
         throw Error("An error has occured: " + JSON.stringify(e));
@@ -38,8 +39,8 @@ const dataSource = {
     },
     insert: async function(values) {
       try {
-        return await InsertEntity(values).then(response => {
-          return response.data.createEntity.entity;
+        return await CreateShippingType(values).then(response => {
+          return response.data.createShippingType.shippingType;
         });
       } catch (e) {
         throw Error("An error has occured: " + JSON.stringify(e));
@@ -47,8 +48,10 @@ const dataSource = {
     },
     remove: async function(key) {
       try {
-        return await DeleteEntity(key).then(response => {
-          const result = response.data.deleteEntityByEntityId.entity.entityId;
+        return await DeleteShippingType(key).then(response => {
+          const result =
+            response.data.deleteShippingTypeByShippingTypeId
+              .shippingType.shippingTypeId;
           return result;
         });
       } catch (e) {
@@ -58,16 +61,14 @@ const dataSource = {
   })
 };
 
-const cellRender = data => <a href={"entity/" + data.value}>Details</a>;
-
-class EntityGrid extends React.Component {
+class Grid extends React.Component {
   render() {
     return (
       <React.Fragment>
         <DataGrid
           id={"gridContainer"}
           dataSource={dataSource}
-          keyExpr={"entityId"}
+          keyExpr={"shippingTypeId"}
           allowColumnReordering={true}
           showBorders={true}
           showColumnLines={true}
@@ -81,20 +82,7 @@ class EntityGrid extends React.Component {
             allowDeleting={true}
             allowAdding={true}
           />
-
-          <Column dataField={"entityName"} />
-          <Column dataField={"isSupplier"} />
-          <Column dataField={"isMarketplace"} />
-          <Column dataField={"isCarrier"} />
-          <Column dataField={"desiredProfitMargin"} />
-          <Column
-            dataField={"entityId"}
-            allowSorting={false}
-            cellRender={cellRender}
-            alignment={"center"}
-            allowEditing={false}
-          />
-
+          <Column dataField={"shippingTypeText"} />
           <Paging defaultPageSize={10} />
           <Pager showPageSizeSelector={true} allowedPageSizes={[5, 10, 100]} />
         </DataGrid>
@@ -103,4 +91,4 @@ class EntityGrid extends React.Component {
   }
 }
 
-export default EntityGrid;
+export default Grid;
