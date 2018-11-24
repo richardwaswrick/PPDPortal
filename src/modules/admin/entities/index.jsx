@@ -58,8 +58,6 @@ const dataSource = {
   })
 };
 
-const cellRender = data => <a href={"entity/" + data.value}>Details</a>;
-
 class EntityGrid extends React.Component {
   render() {
     return (
@@ -86,13 +84,11 @@ class EntityGrid extends React.Component {
           <Column dataField={"isSupplier"} />
           <Column dataField={"isMarketplace"} />
           <Column dataField={"isCarrier"} />
-          <Column dataField={"desiredProfitMargin"} />
           <Column
-            dataField={"entityId"}
-            allowSorting={false}
-            cellRender={cellRender}
-            alignment={"center"}
-            allowEditing={false}
+            dataField={"desiredProfitMargin"}
+            dataType={"number"}
+            format={"percent"}
+            editorOptions={{ format: "percent" }}
           />
 
           <Paging defaultPageSize={10} />

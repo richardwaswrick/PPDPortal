@@ -169,6 +169,7 @@ class Grid extends React.Component {
             dataField={"shippingCost"}
             dataType={"number"}
             format={"$ #,##0.00"}
+            editorOptions={{ format: "$ #,##0.00" }}
           />
 
           <Paging defaultPageSize={10} />
